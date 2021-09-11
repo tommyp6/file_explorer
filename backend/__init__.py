@@ -5,13 +5,13 @@ HOME = os.path.expanduser("~")
 
 def get_files(directory=HOME):
     """
-    files = {
-        "filename":
-    }
+    files = [ "dir" : {
+        "file": {},    
+    }]
     """
-    files = {}
+    files = []
     for file in os.walk(directory):
-        print(file)
+        
 
     return
 
