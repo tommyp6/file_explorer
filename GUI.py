@@ -8,6 +8,12 @@ Plan:
 2. Box layout in vertical orientation to display input box under the buttons
 3. Box layout in vertical orientation (with scroll enabled) to display a list made of buttons
 '''
+
+'''Access Peter's file to get the list of files and passing through the directory'''
+def get_files_to_display(directory):
+    files = file.function(directory)
+    return files
+
 def set_default_button_attrs(button):
     button.colour = (216, 216, 216)
     button.hover_colour = (158, 158, 158)
@@ -35,7 +41,49 @@ def create_tool_bar():
     paste.text = "Paste"
     paste.bind(Explorer.paste_button())
     tool_layout.add_widget(paste)
-    
+
+def create_search_bar():
+    bar_layout = BoxLayout()
+    bar_layout.mode = "horizontal"
+    bar_layout.background_colour = (240, 240, 240)
+
+    search_bar = Text_input()
+    search_bar.default_text = "Search here"
+    bar_layout.add_widget(search_bar)
+
+    search_button = Button_widget()
+    search_button.icon = "search"
+    search_button.icon_align = "centre"
+    bar_layout.add_widget(search_button)
+
+    return bar_layout, input_box
+
+def update_files(directory):
+    file_buttons = []
+    files = get_files_to_display(directory)
+
+    for file in get_files_to_display():
+        file_button = Button_widget()
+        file_button.text = file
+        file_layout.add_widget(file_button)
+        file_buttons.append(file_button)
+
+    return file_buttons
+
+def show_files(layout_height, directory):
+    file_buttons = []
+    files = get_files_to_display()
+    real_size = files * 50
+    if real_size > layout_height:
+        real_height = real_size / layout_height
+    file_layout = BoxLayout()
+    file_layout.mode = "vertical"
+    file_layout.background_colour = (240, 240)
+    file_layout.scroll_enabled = True
+    file_layout.real_size = real_size
+
+    update_files(directory)
+
     return tool_layout
 
 class Explorer(App):
@@ -45,16 +93,28 @@ class Explorer(App):
         self.title = "File Explorer"
 
         tool_bar = create_tool_bar()
+        search_bar, input_box = create_search_bar()
+        file_tray = show_files(self.screen_height * 0.8, directory)
 
-        screen = {tool_bar : 1}
+        self.search_bar = input_box
+
+        screen = {tool_bar : 0.2, search_bar : 0.1, file_tray : 0.7}
 
         return screen
 
     def copy_button(self):
-        tools.copy()
+        #tools.copy()
+        pass
 
     def paste_button(self):
         pass
+
+    def search_button(self):
+        pass
+
+    def somehow_access_button_actions(self, new_directory):
+        file_tray.reset_widgets()
+        update_files(new_directory)
 
 if __name__ == "__main__":
     Explorer.run()
