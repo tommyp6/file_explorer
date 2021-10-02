@@ -33,7 +33,7 @@ class Path:
 
     def __iter__(self):
         if not os.path.isfile(self.path):
-            for item in os.listdir(self.path):
+            for (item, _, _) in os.walk(self.path):
                 item = os.path.join(self.path, item)
                 _p = _Path(item)
                 base = Path(
@@ -61,5 +61,5 @@ if __name__ == "__main__":
     print(repr(p))
     for item in p:
         print(f"\t{repr(item)}")
-        for i in item:
-            print(f"\t\t{repr(i)}")
+        # for i in item:
+        #     print(f"\t\t{repr(i)}")
