@@ -20,10 +20,10 @@ class Path:
             self.last_modified = os.path.getctime(self.path)
 
         if self.owner is None:
-            self.owner = _Path(self.path).owner()
+            self.owner = None ## _Path(self.path).owner()
 
         if self.group is None:
-            self.group = _Path(self.path).group()
+            self.group = None ## _Path(self.path).group()
 
     def __str__(self):
         return self.name
@@ -40,8 +40,8 @@ class Path:
                     item,
                     os.path.getsize(item),
                     os.path.getctime(item),
-                    _p.owner(),
-                    _p.group(),
+                    None, ## _p.owner(),
+                    None ## _p.group(),
                 )
                 yield base
 
