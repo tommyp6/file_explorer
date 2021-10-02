@@ -10,8 +10,8 @@ Plan:
 '''
 
 '''Access Peter's file to get the list of files and passing through the directory'''
-def get_files_to_display(directory):
-    files = file.function(directory)
+def get_files_to_display(directory, search_text):
+    files = file.function(directory, search_text)
     return files
 
 def set_default_button_attrs(button):
@@ -58,9 +58,9 @@ def create_search_bar():
 
     return bar_layout, input_box
 
-def update_files(directory):
+def update_files(file_layout, directory, search):
     file_buttons = []
-    files = get_files_to_display(directory)
+    files = get_files_to_display(directory, search)
 
     for file in get_files_to_display():
         file_button = Button_widget()
@@ -82,39 +82,40 @@ def show_files(layout_height, directory):
     file_layout.scroll_enabled = True
     file_layout.real_size = real_size
 
-    update_files(directory)
+    update_files(file_layout, directory, "")
 
-    return tool_layout
+    return file_layout
 
 class Explorer(App):
     def build(self):
         self.screen_width = 1000
         self.screen_height = 800
         self.title = "File Explorer"
+        self.directory = "C:"
 
         tool_bar = create_tool_bar()
         search_bar, input_box = create_search_bar()
-        file_tray = show_files(self.screen_height * 0.8, directory)
+        file_tray = show_files(self.screen_height * 0.8, self.directory)
 
-        self.search_bar = input_box
+        self.file_tray = file_tray
 
         screen = {tool_bar : 0.2, search_bar : 0.1, file_tray : 0.7}
 
         return screen
 
     def copy_button(self):
-        #tools.copy()
         pass
 
     def paste_button(self):
         pass
 
-    def search_button(self):
-        pass
+    def search_button(self, text_input):
+        update_files(self.file_tray, self.directory, text_input.text)
 
-    def somehow_access_button_actions(self, new_directory):
-        file_tray.reset_widgets()
-        update_files(new_directory)
+    def file_pressed(self, new_directory):
+        self.file_tray.reset_widgets()
+        update_files(self.file_tray, new_directory, "")
 
 if __name__ == "__main__":
     Explorer.run()
+
