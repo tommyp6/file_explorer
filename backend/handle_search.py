@@ -1,3 +1,8 @@
+'''The main purpose of the find_files function is to return a list of 
+paths which can then be displayed using the gui. The first parameter of find_files
+is a dictionary with keys of paths and values of lists including further dictionaries.
+The second parameter is a string the user searched.'''
+
 # from . import get_files
 # from frontend import get_search
 import os
