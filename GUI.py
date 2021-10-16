@@ -1,4 +1,4 @@
-from GUI_toolkit import App
+from . import App
 
 # place holder for where tools in the tool bar will be stored
 
